@@ -4,7 +4,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.helloserver.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
-@Mapper // 标记为MyBatis映射接口，SpringBoot自动扫描
+/**
+ * 用户Mapper，继承BaseMapper自动拥有CRUD
+ */
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
-    // 继承BaseMapper后，自带insert/select/delete/update等方法，无需手写
+
+    // 无需写任何方法，BaseMapper 已包含：
+    // insert、deleteById、updateById、selectById、selectList 等
 }

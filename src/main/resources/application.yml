@@ -1,16 +1,32 @@
+# 服务器配置
+server:
+  port: 8080
+
+# Spring 核心配置
 spring:
+  # 数据源配置（PostgreSQL）
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/lab_db
     username: postgres
     password: 123456
-    driver-class-name: org.postgresql.Driver
+  # 应用名称
   application:
     name: hello-server
 
-# MyBatis-Plus配置
+# MyBatis-Plus 配置
 mybatis-plus:
   configuration:
+    # 控制台打印SQL日志（调试用）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名自动映射（数据库下划线 -> Java驼峰）
     map-underscore-to-camel-case: true
+  # Mapper XML文件位置（XML方式写SQL时需配置）
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类包扫描（简化XML/注解中实体类引用）
+  type-aliases-package: com.example.hello_server.entity
+  # 全局配置
   global-config:
     db-config:
+      # 数据库表前缀
       table-prefix: sys_
