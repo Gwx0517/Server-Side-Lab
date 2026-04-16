@@ -13,6 +13,12 @@ spring:
   # 应用名称
   application:
     name: hello-server
+  # Redis 配置
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
 
 # MyBatis-Plus 配置
 mybatis-plus:
