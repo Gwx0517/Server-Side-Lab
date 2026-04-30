@@ -10,6 +10,7 @@ import com.example.helloserver.entity.User;
 import com.example.helloserver.entity.UserInfo;
 import com.example.helloserver.mapper.UserInfoMapper;
 import com.example.helloserver.mapper.UserMapper;
+import com.example.helloserver.security.JwtUtil;
 import com.example.helloserver.service.UserService;
 import com.example.helloserver.vo.UserDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public Result<String> register(UserDTO userDTO) {
@@ -59,7 +63,9 @@ public class UserServiceImpl implements UserService {
         if (!dbUser.getPassword().equals(userDTO.getPassword())) {
             return Result.error(ResultCode.PASSWORD_ERROR);
         }
-        return Result.success("登录成功");
+        // 登录成功，生成JWT令牌
+        String jwt = jwtUtil.generateToken(userDTO.getUsername());
+        return Result.success(jwt);
     }
 
     @Override
@@ -69,6 +75,17 @@ public class UserServiceImpl implements UserService {
             return Result.error(ResultCode.USER_NOT_EXIST);
         }
         return Result.success(user.getUsername());
+    }
+
+    @Override
+    public Result<String> getUserByUsername(String username) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, username);
+        User user = userMapper.selectOne(queryWrapper);
+        if (user == null) {
+            return Result.error(ResultCode.USER_NOT_EXIST);
+        }
+        return Result.success("用户ID: " + user.getId());
     }
 
     // 分页查询（任务6 正确实现）

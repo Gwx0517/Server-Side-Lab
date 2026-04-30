@@ -1,5 +1,7 @@
 package com.example.helloserver.config;
 
+import com.example.helloserver.security.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,6 +17,9 @@ import static org.springframework.http.HttpMethod.POST;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,6 +39,8 @@ public class SecurityConfig {
                         // 所有其他请求必须认证
                         .anyRequest().authenticated()
                 )
+                // 添加JWT认证过滤器
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 关闭表单登录（前后端分离用不到）
                 .formLogin(AbstractHttpConfigurer::disable)
                 // 关闭HTTP Basic认证（自定义认证方式）
