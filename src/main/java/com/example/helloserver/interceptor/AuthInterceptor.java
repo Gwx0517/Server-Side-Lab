@@ -1,15 +1,24 @@
 package com.example.helloserver.interceptor;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 白名单，不需要登录就能访问
+        String requestURI = request.getRequestURI();
+        List<String> whiteList = Arrays.asList("/api/chat");
+        if (whiteList.contains(requestURI)) {
+            return true; // 直接放行，不校验token
+        }
+
         // 1. 获取请求的HTTP动词（GET/POST/PUT/DELETE）和请求路径
         String method = request.getMethod();
         String uri = request.getRequestURI();

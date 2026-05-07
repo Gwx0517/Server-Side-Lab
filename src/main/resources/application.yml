@@ -1,6 +1,6 @@
 # 服务器配置
 server:
-  port: 8080
+  port: 8081
 
 # Spring 核心配置
 spring:
@@ -19,6 +19,10 @@ spring:
       host: 127.0.0.1
       port: 6379
       database: 0
+  # Spring AI 配置
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
 
 # JWT 配置
 security:
