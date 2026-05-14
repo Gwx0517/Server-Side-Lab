@@ -36,6 +36,8 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/api/users/login", POST.name())).permitAll()
                         // 注册接口放行
                         .requestMatchers(new AntPathRequestMatcher("/api/users", POST.name())).permitAll()
+                        // 聊天接口放行
+                        .requestMatchers(new AntPathRequestMatcher("/api/chat", POST.name())).permitAll()
                         // 所有其他请求必须认证
                         .anyRequest().authenticated()
                 )

@@ -18,5 +18,5 @@ public class UserInfo {
     private String realName;    // 真实姓名（对应数据库 real_name，MyBatis-Plus 自动下划线转驼峰）
     private String phone;       // 手机号码
     private String address;     // 联系地址
-    private Integer userId;     // 关联 sys_user 表的 id
+    private Long userId;     // 关联 sys_user 表的 id
 }

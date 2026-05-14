@@ -33,6 +33,12 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    // 根据用户名查询用户
+    @GetMapping("/username/{username}")
+    public Result<String> getUserByUsername(@PathVariable String username) {
+        return userService.getUserByUsername(username);
+    }
+
     // 分页查询用户
     @GetMapping("/page")
     public Result<Object> getUserPage(
